@@ -1,301 +1,339 @@
-// // components/common/Footer.tsx
-// import Link from "next/link";
-// import {
-//   FaFacebook,
-//   FaTwitter,
-//   FaInstagram,
-//   FaYoutube,
-//   FaLinkedin, // ✅ NOTE: FaLinkedin (not FaLinkedinIn if you prefer this one)
-// } from "react-icons/fa";;
-// import { Input } from "@/components/ui/input";
-// import { Button } from "@/components/ui/button";
+// src/components/common/Footer.tsx
+"use client";
 
-// // ── Static Data ──────────────────────────────────────────
-// const FOOTER_LINKS = {
-//   company: [
-//     { label: "About Us", href: "/about" },
-//     { label: "Blog", href: "/blog" },
-//     { label: "Careers", href: "#" },
-//     { label: "Press", href: "#" },
-//     { label: "Contact Us", href: "/contact" },
-//   ],
-//   support: [
-//     { label: "Help Center", href: "/faq" },
-//     { label: "Order Tracking", href: "/dashboard/user/orders" },
-//     { label: "Returns & Refunds", href: "#" },
-//     { label: "Shipping Info", href: "#" },
-//     { label: "Size Guide", href: "#" },
-//   ],
-//   account: [
-//     { label: "My Account", href: "/dashboard" },
-//     { label: "My Orders", href: "/dashboard/user/orders" },
-//     { label: "My Wishlist", href: "/wishlist" },
-//     { label: "My Reviews", href: "/dashboard/user/reviews" },
-//     { label: "Addresses", href: "/dashboard/user/addresses" },
-//   ],
-//   legal: [
-//     { label: "Privacy Policy", href: "#" },
-//     { label: "Terms of Service", href: "#" },
-//     { label: "Cookie Policy", href: "#" },
-//     { label: "Disclaimer", href: "#" },
-//   ],
-// };
+import Link from "next/link";
+import {
+  Facebook,
+  Twitter,
+  Instagram,
+  Youtube,
+  MapPin,
+  Mail,
+  Phone,
+  ChevronRight,
+  Zap,
+} from "lucide-react";
+import { ROUTES } from "../../constants/routes";
 
-// const SOCIAL_LINKS = [
-//   { icon: Facebook, href: "#", label: "Facebook" },
-//   { icon: Twitter, href: "#", label: "Twitter" },
-//   { icon: Instagram, href: "#", label: "Instagram" },
-//   { icon: Youtube, href: "#", label: "Youtube" },
-//   { icon: Linkedin, href: "#", label: "LinkedIn" },
-// ];
+// ── Static Data ───────────────────────────────────────────────────────────────
 
-// const FEATURES = [
-//   { icon: Truck, title: "Free Shipping", desc: "On orders over $50" },
-//   { icon: RefreshCcw, title: "Easy Returns", desc: "30-day return policy" },
-//   { icon: ShieldCheck, title: "Secure Payment", desc: "100% protected" },
-//   { icon: Headphones, title: "24/7 Support", desc: "Always here to help" },
-// ];
+const QUICK_LINKS = [
+  { label: "Home", href: ROUTES.HOME },
+  { label: "Products", href: ROUTES.PRODUCTS },
+  { label: "Flash Sale", href: ROUTES.FLASH_SALE },
+  { label: "Blog", href: ROUTES.BLOG },
+  { label: "About Us", href: ROUTES.ABOUT },
+  { label: "Contact Us", href: ROUTES.CONTACT },
+];
 
-// const PAYMENT_METHODS = ["Visa", "Mastercard", "Amex", "PayPal", "Stripe"];
+const CUSTOMER_SERVICE = [
+  { label: "FAQ", href: ROUTES.FAQ ?? "/faq" },
+  { label: "Returns & Refunds", href: "/returns" },
+  { label: "Shipping Policy", href: "/shipping" },
+  { label: "Track My Order", href: ROUTES.USER_ORDERS ?? "/orders" },
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms of Service", href: "/terms" },
+];
 
-// // ── Feature Strip ─────────────────────────────────────────
-// function FeatureStrip() {
-//   return (
-//     <div className="bg-[#f2f4f8] border-t border-gray-200 w-full">
-//       <div className="max-w-[1400px] mx-auto px-6 py-8">
-//         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-//           {FEATURES.map((f) => {
-//             const Icon = f.icon;
-//             return (
-//               <div key={f.title} className="flex items-center gap-4">
-//                 <div className="w-11 h-11 rounded-xl bg-tech_purple/10 flex items-center justify-center flex-shrink-0">
-//                   <Icon size={20} className="text-tech_purple" />
-//                 </div>
-//                 <div>
-//                   <p className="text-sm font-bold text-tech_black">{f.title}</p>
-//                   <p className="text-xs text-gray-500">{f.desc}</p>
-//                 </div>
-//               </div>
-//             );
-//           })}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
+const SOCIAL_LINKS = [
+  { icon: Facebook, href: "https://facebook.com", label: "Facebook" },
+  { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
+  { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
+  { icon: Youtube, href: "https://youtube.com", label: "YouTube" },
+];
 
-// // ── Main Footer ───────────────────────────────────────────
-// export default function Footer() {
-//   return (
-//     <footer className="w-full">
-//       <FeatureStrip />
+// ── Sub-components ────────────────────────────────────────────────────────────
 
-//       <div className="bg-tech_black w-full">
-//         <div className="max-w-[1400px] mx-auto px-6 py-16">
-//           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10">
+function FooterLinkList({
+  title,
+  links,
+}: {
+  title: string;
+  links: { label: string; href: string }[];
+}) {
+  return (
+    <div>
+      <h4
+        className="text-base font-bold mb-5 relative inline-block"
+        style={{ color: "#ffffff" }}
+      >
+        {title}
+        <span
+          className="absolute -bottom-1.5 left-0 w-8 h-0.5 rounded-full"
+          style={{ backgroundColor: "#ef4a23" }}
+        />
+      </h4>
+      <ul className="flex flex-col gap-3">
+        {links.map((link) => (
+          <li key={link.label}>
+            <Link
+              href={link.href}
+              className="flex items-center gap-2 text-sm transition-all duration-150 group"
+              style={{ color: "rgba(255,255,255,0.55)" }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.color = "#ef4a23";
+                (e.currentTarget as HTMLAnchorElement).style.paddingLeft = "4px";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.color =
+                  "rgba(255,255,255,0.55)";
+                (e.currentTarget as HTMLAnchorElement).style.paddingLeft = "0px";
+              }}
+            >
+              <ChevronRight
+                size={13}
+                className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                style={{ color: "#ef4a23" }}
+              />
+              {link.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
-//             {/* Brand Column */}
-//             <div className="lg:col-span-2">
-//               {/* Logo */}
-//               <Link href="/" className="flex items-center gap-2.5 mb-5">
-//                 <div className="w-9 h-9 rounded-xl bg-tech_purple flex items-center justify-center">
-//                   <span className="text-white font-black text-xl leading-none">S</span>
-//                 </div>
-//                 <span className="text-[22px] font-black text-white tracking-tight">
-//                   Shop<span className="text-tech_purple">ly</span>
-//                 </span>
-//               </Link>
+function ContactItem({
+  icon: Icon,
+  children,
+}: {
+  icon: React.ElementType;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex items-start gap-3">
+      <div
+        className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
+        style={{
+          backgroundColor: "rgba(239,74,35,0.15)",
+          color: "#ef4a23",
+        }}
+      >
+        <Icon size={15} />
+      </div>
+      <span
+        className="text-sm leading-relaxed"
+        style={{ color: "rgba(255,255,255,0.55)" }}
+      >
+        {children}
+      </span>
+    </div>
+  );
+}
 
-//               <p className="text-gray-400 text-sm leading-relaxed mb-6 max-w-xs">
-//                 Your one-stop destination for premium products. Shop smarter,
-//                 live better — with exclusive deals every day.
-//               </p>
+// ── Main Footer ───────────────────────────────────────────────────────────────
 
-//               {/* Contact Info */}
-//               <div className="space-y-3 mb-6">
-//                 <div className="flex items-center gap-3">
-//                   <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
-//                     <MapPin size={14} className="text-tech_purple" />
-//                   </div>
-//                   <span className="text-gray-400 text-sm">123 Commerce Street, Dhaka, BD</span>
-//                 </div>
-//                 <div className="flex items-center gap-3">
-//                   <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
-//                     <Phone size={14} className="text-tech_purple" />
-//                   </div>
-//                   <span className="text-gray-400 text-sm">+880 1234-567890</span>
-//                 </div>
-//                 <div className="flex items-center gap-3">
-//                   <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
-//                     <Mail size={14} className="text-tech_purple" />
-//                   </div>
-//                   <span className="text-gray-400 text-sm">support@shoply.com</span>
-//                 </div>
-//               </div>
+export default function Footer() {
+  const year = new Date().getFullYear();
 
-//               {/* Social Links */}
-//               <div className="flex items-center gap-2">
-//                 {SOCIAL_LINKS.map((s) => {
-//                   const Icon = s.icon;
-//                   return (
-//                     <Link
-//                       key={s.label}
-//                       href={s.href}
-//                       aria-label={s.label}
-//                       className="w-9 h-9 rounded-xl bg-white/5 hover:bg-tech_purple flex items-center justify-center transition-colors"
-//                     >
-//                       <Icon size={15} className="text-gray-400 hover:text-white transition-colors" />
-//                     </Link>
-//                   );
-//                 })}
-//               </div>
-//             </div>
+  return (
+    <footer style={{ backgroundColor: "#081621" }}>
+      {/* newsletter strip */}
+      <div
+        className="border-b"
+        style={{ borderColor: "rgba(255,255,255,0.07)" }}
+      >
+        <div className="max-w-[1440px] mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-3">
+            <div
+              className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+              style={{ backgroundColor: "rgba(239,74,35,0.15)", color: "#ef4a23" }}
+            >
+              <Zap size={20} fill="#ef4a23" />
+            </div>
+            <div>
+              <p className="font-bold text-white text-sm">
+                Subscribe to our newsletter
+              </p>
+              <p className="text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>
+                Get the latest deals and updates delivered to your inbox.
+              </p>
+            </div>
+          </div>
 
-//             {/* Company Links */}
-//             <div>
-//               <h4 className="text-white font-bold text-sm mb-5 uppercase tracking-wider">
-//                 Company
-//               </h4>
-//               <ul className="space-y-3">
-//                 {FOOTER_LINKS.company.map((link) => (
-//                   <li key={link.label}>
-//                     <Link
-//                       href={link.href}
-//                       className="text-gray-400 hover:text-tech_purple text-sm transition-colors"
-//                     >
-//                       {link.label}
-//                     </Link>
-//                   </li>
-//                 ))}
-//               </ul>
-//             </div>
+          <div className="flex w-full md:w-auto">
+            <input
+              type="email"
+              placeholder="Enter your email address"
+              className="flex-1 md:w-72 h-11 px-4 text-sm outline-none rounded-l-xl"
+              style={{
+                backgroundColor: "rgba(255,255,255,0.07)",
+                border: "0.5px solid rgba(255,255,255,0.12)",
+                borderRight: "none",
+                color: "#fff",
+                fontFamily: "'Trebuchet MS', sans-serif",
+              }}
+            />
+            <button
+              className="h-11 px-5 text-sm font-semibold text-white rounded-r-xl transition-opacity hover:opacity-85 flex-shrink-0"
+              style={{ backgroundColor: "#ef4a23" }}
+            >
+              Subscribe
+            </button>
+          </div>
+        </div>
+      </div>
 
-//             {/* Support Links */}
-//             <div>
-//               <h4 className="text-white font-bold text-sm mb-5 uppercase tracking-wider">
-//                 Support
-//               </h4>
-//               <ul className="space-y-3">
-//                 {FOOTER_LINKS.support.map((link) => (
-//                   <li key={link.label}>
-//                     <Link
-//                       href={link.href}
-//                       className="text-gray-400 hover:text-tech_purple text-sm transition-colors"
-//                     >
-//                       {link.label}
-//                     </Link>
-//                   </li>
-//                 ))}
-//               </ul>
-//             </div>
+      {/* main grid */}
+      <div className="max-w-[1440px] mx-auto px-6 py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
 
-//             {/* Account Links */}
-//             <div>
-//               <h4 className="text-white font-bold text-sm mb-5 uppercase tracking-wider">
-//                 My Account
-//               </h4>
-//               <ul className="space-y-3">
-//                 {FOOTER_LINKS.account.map((link) => (
-//                   <li key={link.label}>
-//                     <Link
-//                       href={link.href}
-//                       className="text-gray-400 hover:text-tech_purple text-sm transition-colors"
-//                     >
-//                       {link.label}
-//                     </Link>
-//                   </li>
-//                 ))}
-//               </ul>
-//             </div>
+        {/* col 1 — brand */}
+        <div className="flex flex-col gap-5">
+          {/* logo */}
+          <Link href={ROUTES.HOME} className="flex items-center gap-2 w-fit">
+            <div
+              className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-black text-lg"
+              style={{ backgroundColor: "#ef4a23" }}
+            >
+              S
+            </div>
+            <span className="text-2xl font-black tracking-tight text-white">
+              Shop<span style={{ color: "#ef4a23" }}>Cart</span>
+            </span>
+          </Link>
 
-//             {/* Newsletter */}
-//             <div>
-//               <h4 className="text-white font-bold text-sm mb-5 uppercase tracking-wider">
-//                 Newsletter
-//               </h4>
-//               <p className="text-gray-400 text-sm mb-4 leading-relaxed">
-//                 Subscribe and get exclusive deals, new arrivals and discount offers.
-//               </p>
-//               <div className="flex flex-col gap-2">
-//                 <div className="relative">
-//                   <Input
-//                     placeholder="Your email address"
-//                     className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 h-11 pr-12 rounded-xl focus-visible:border-tech_purple focus-visible:ring-0"
-//                   />
-//                   <button className="absolute right-0 top-0 h-11 w-11 flex items-center justify-center bg-tech_purple hover:bg-tech_purple/90 rounded-r-xl transition-colors">
-//                     <Send size={15} className="text-white" />
-//                   </button>
-//                 </div>
-//                 <p className="text-gray-500 text-xs">
-//                   No spam. Unsubscribe anytime.
-//                 </p>
-//               </div>
+          <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>
+            Your one-stop destination for premium products at unbeatable prices.
+            Fast delivery, easy returns, and 24/7 customer support.
+          </p>
 
-//               {/* App Download */}
-//               <div className="mt-6">
-//                 <p className="text-gray-500 text-xs mb-3 uppercase tracking-wide">
-//                   Download App
-//                 </p>
-//                 <div className="flex flex-col gap-2">
-//                   <Link
-//                     href="#"
-//                     className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
-//                   >
-//                     <div className="text-white text-xs">
-//                       <p className="text-[10px] text-gray-400">Get it on</p>
-//                       <p className="font-semibold">Google Play</p>
-//                     </div>
-//                   </Link>
-//                   <Link
-//                     href="#"
-//                     className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
-//                   >
-//                     <div className="text-white text-xs">
-//                       <p className="text-[10px] text-gray-400">Download on</p>
-//                       <p className="font-semibold">App Store</p>
-//                     </div>
-//                   </Link>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
+          {/* social icons */}
+          <div className="flex items-center gap-2 mt-1">
+            {SOCIAL_LINKS.map(({ icon: Icon, href, label }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-200"
+                style={{
+                  backgroundColor: "rgba(255,255,255,0.07)",
+                  border: "0.5px solid rgba(255,255,255,0.1)",
+                  color: "rgba(255,255,255,0.6)",
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.backgroundColor =
+                    "#ef4a23";
+                  (e.currentTarget as HTMLAnchorElement).style.borderColor =
+                    "#ef4a23";
+                  (e.currentTarget as HTMLAnchorElement).style.color = "#fff";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.backgroundColor =
+                    "rgba(255,255,255,0.07)";
+                  (e.currentTarget as HTMLAnchorElement).style.borderColor =
+                    "rgba(255,255,255,0.1)";
+                  (e.currentTarget as HTMLAnchorElement).style.color =
+                    "rgba(255,255,255,0.6)";
+                }}
+              >
+                <Icon size={16} />
+              </a>
+            ))}
+          </div>
+        </div>
 
-//         {/* Bottom Bar */}
-//         <div className="border-t border-white/5 w-full">
-//           <div className="max-w-[1400px] mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-//             <p className="text-gray-500 text-xs text-center sm:text-left">
-//               © {new Date().getFullYear()} Shoply. All rights reserved.
-//             </p>
+        {/* col 2 — quick links */}
+        <FooterLinkList title="Quick Links" links={QUICK_LINKS} />
 
-//             {/* Legal Links */}
-//             <div className="flex items-center gap-1 text-xs text-gray-500">
-//               {FOOTER_LINKS.legal.map((link, i) => (
-//                 <span key={link.label} className="flex items-center">
-//                   <Link href={link.href} className="hover:text-gray-300 transition-colors px-2">
-//                     {link.label}
-//                   </Link>
-//                   {i < FOOTER_LINKS.legal.length - 1 && (
-//                     <span className="text-white/10">|</span>
-//                   )}
-//                 </span>
-//               ))}
-//             </div>
+        {/* col 3 — customer service */}
+        <FooterLinkList title="Customer Service" links={CUSTOMER_SERVICE} />
 
-//             {/* Payment Icons */}
-//             <div className="flex items-center gap-1.5">
-//               {PAYMENT_METHODS.map((method) => (
-//                 <div
-//                   key={method}
-//                   className="px-2.5 py-1 bg-white/5 rounded-md border border-white/10 text-[10px] text-gray-400 font-medium"
-//                 >
-//                   {method}
-//                 </div>
-//               ))}
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </footer>
-//   );
-// }
+        {/* col 4 — contact */}
+        <div>
+          <h4
+            className="text-base font-bold mb-5 relative inline-block"
+            style={{ color: "#ffffff" }}
+          >
+            Contact Us
+            <span
+              className="absolute -bottom-1.5 left-0 w-8 h-0.5 rounded-full"
+              style={{ backgroundColor: "#ef4a23" }}
+            />
+          </h4>
+
+          <div className="flex flex-col gap-4">
+            <ContactItem icon={MapPin}>
+              123 Commerce Street, Suite 100,
+              <br />
+              New York, NY 10001, USA
+            </ContactItem>
+            <ContactItem icon={Mail}>
+              <a
+                href="mailto:support@shopcart.com"
+                className="transition-colors hover:text-[#ef4a23]"
+              >
+                support@shopcart.com
+              </a>
+            </ContactItem>
+            <ContactItem icon={Phone}>
+              <a
+                href="tel:+18885550103"
+                className="transition-colors hover:text-[#ef4a23]"
+              >
+                +1 (888) 555-0103
+              </a>
+              <br />
+              Mon – Sat, 9am – 6pm EST
+            </ContactItem>
+          </div>
+
+          {/* payment badges */}
+          <div className="mt-6">
+            <p
+              className="text-xs font-semibold uppercase tracking-widest mb-3"
+              style={{ color: "rgba(255,255,255,0.35)" }}
+            >
+              We Accept
+            </p>
+            <div className="flex items-center gap-2 flex-wrap">
+              {["Visa", "Mastercard", "Amex", "PayPal", "Stripe"].map((p) => (
+                <span
+                  key={p}
+                  className="px-2.5 py-1 rounded-md text-[11px] font-bold"
+                  style={{
+                    backgroundColor: "rgba(255,255,255,0.08)",
+                    color: "rgba(255,255,255,0.5)",
+                    border: "0.5px solid rgba(255,255,255,0.1)",
+                  }}
+                >
+                  {p}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* bottom bar */}
+      <div
+        className="border-t"
+        style={{ borderColor: "rgba(255,255,255,0.07)" }}
+      >
+        <div className="max-w-[1440px] mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-sm" style={{ color: "rgba(255,255,255,0.35)" }}>
+            © {year} ShopCart. All rights reserved.
+          </p>
+          <div className="flex items-center gap-5">
+            {[
+              { label: "Privacy Policy", href: "/privacy" },
+              { label: "Terms of Service", href: "/terms" },
+              { label: "Cookie Policy", href: "/cookies" },
+            ].map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="text-xs transition-colors hover:text-[#ef4a23]"
+                style={{ color: "rgba(255,255,255,0.35)" }}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
