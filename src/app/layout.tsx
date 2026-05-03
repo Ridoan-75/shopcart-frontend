@@ -8,7 +8,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 const trebuchet = localFont({
-  src: "./fonts/trebuchet.ttf",
+  src: "./fonts/trebuc.ttf",
   variable: "--font-trebuchet",
   display: "swap",
 });

@@ -1,8 +1,9 @@
 import axiosInstance from "../lib/axios";
 import { ApiResponse } from "../types/api.types";
+import { Notification } from "../types/notification.types";
 
 export const getNotifications = async () => {
-  const res = await axiosInstance.get<ApiResponse<any[]>>("/notifications");
+  const res = await axiosInstance.get<ApiResponse<Notification[]>>("/notifications");
   return res.data;
 };
 
